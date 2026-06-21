@@ -1,2 +1,2 @@
 # set-low_level_programming
-This repository is for C
+Introductory C low-level programming compilation and data type layout exploration.
