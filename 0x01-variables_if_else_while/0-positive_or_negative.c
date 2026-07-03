@@ -4,8 +4,7 @@
 
 /**
  * main - Entry point
- *
- * Description: Assign random number to n and print if positive, negative, or zero
+ * Description: Print if random number is positive, negative, or zero
  * Return: Always 0 (Success)
  */
 int main(void)
