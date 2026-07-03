@@ -2,7 +2,7 @@
 
 /**
  * main - Entry point
- * Description: Print all single digit numbers starting from 0 (no char variable)
+ * Description: Print all single digit numbers starting from 0
  * Return: Always 0 (Success)
  */
 int main(void)
@@ -13,6 +13,6 @@ int main(void)
 	{
 		putchar('0' + i);
 	}
-	putchar('\n');
+	putchar(10);
 	return (0);
 }
