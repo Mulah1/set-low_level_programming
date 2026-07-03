@@ -4,7 +4,6 @@
 
 /**
  * main - Entry point
- *
  * Description: Print the last digit of a random number
  * Return: Always 0 (Success)
  */
