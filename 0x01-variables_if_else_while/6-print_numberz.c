@@ -2,7 +2,6 @@
 
 /**
  * main - Entry point
- *
  * Description: Print all single digit numbers starting from 0 (no char variable)
  * Return: Always 0 (Success)
  */
