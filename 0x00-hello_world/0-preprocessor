@@ -1,2 +1,2 @@
-#!/bin/bash
-gcc -E "$CFILE"
+#!/bin/bash/0-preprocessor
+gcc -E "$CFILE"/0-preprocessor
