@@ -1,8 +1,1 @@
-# 1. Compile all .c files into .o object files
-gcc -Wall -pedantic -Werror -Wextra -std=gnu89 -c *.c
 
-# 2. Bundle all .o files into libmy.a
-ar -rc libmy.a *.o
-
-# 3. Index the library
-ranlib libmy.a
