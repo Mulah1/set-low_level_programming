@@ -1,3 +1,4 @@
+cat << 'EOF' > main.h
 #ifndef MAIN_H
 #define MAIN_H
 
@@ -23,3 +24,4 @@ char *_strpbrk(char *s, char *accept);
 char *_strstr(char *haystack, char *needle);
 
 #endif /* MAIN_H */
+EOF
