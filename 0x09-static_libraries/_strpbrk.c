@@ -2,17 +2,18 @@
 
 char *_strpbrk(char *s, char *accept)
 {
-    int i;
+	char *a;
 
-    while (*s)
-    {
-        for (i = 0; accept[i] != '\0'; i++)
-        {
-            if (*s == accept[i])
-                return (s);
-        }
-        s++;
-    }
-
-    return (0);
+	while (*s)
+	{
+		a = accept;
+		while (*a)
+		{
+			if (*a == *s)
+				return s;
+			a++;
+		}
+		s++;
+	}
+	return 0;
 }

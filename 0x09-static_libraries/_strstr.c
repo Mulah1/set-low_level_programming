@@ -1,18 +1,20 @@
 #include "main.h"
 
-char *_strpbrk(char *s, char *accept)
+char *_strstr(char *haystack, char *needle)
 {
-    int i;
-
-    while (*s)
-    {
-        for (i = 0; accept[i] != '\0'; i++)
-        {
-            if (*s == accept[i])
-                return (s);
-        }
-        s++;
-    }
-
-    return (0);
+	if (!*needle)
+		return haystack;
+	for (; *haystack; haystack++)
+	{
+		char *h = haystack;
+		char *n = needle;
+		while (*h && *n && *h == *n)
+		{
+			h++;
+			n++;
+		}
+		if (!*n)
+			return haystack;
+	}
+	return 0;
 }

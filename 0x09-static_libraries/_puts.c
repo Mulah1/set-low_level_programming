@@ -1,11 +1,7 @@
 #include "main.h"
 
-void _puts(char *str)
+void _puts(char *s)
 {
-    while (*str)
-    {
-        _putchar(*str);
-        str++;
-    }
-    _putchar('\n');
+	while (s && *s)
+		_putchar(*s++);
 }
