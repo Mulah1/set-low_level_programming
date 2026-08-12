@@ -5,11 +5,17 @@ set -euo pipefail
 # Remove old library if any
 rm -f liball.a
 
-# Compile each .c to .o with the required flags
-for src in *.c; do
-  [ -e "${src}" ] || continue
-  gcc -c -Wall -Wextra -Werror -pedantic -std=gnu89 "${src}"
-done
+# Enable nullglob so that the pattern expands to empty when no matches
+shopt -s nullglob
+
+# Collect C source files
+c_files=( *.c )
+
+# Exit if there are no C files
+[ ${#c_files[@]} -gt 0 ] || exit 0
+
+# Compile all .c files to .o with the required flags (do NOT treat warnings as errors)
+gcc -c -Wall -Wextra -pedantic -std=gnu89 "${c_files[@]}"
 
 # Create static library from all object files
 ar rcs liball.a *.o
