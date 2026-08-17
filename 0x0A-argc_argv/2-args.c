@@ -1,12 +1,19 @@
 #include <stdio.h>
 
-/* Prints all arguments, one per line, including the program name. */
+/**
+ * main - prints all arguments received, one per line
+ * @argc: argument count
+ * @argv: array of pointers to arguments
+ *
+ * Return: Always 0 (Success)
+ */
 int main(int argc, char *argv[])
 {
 	int i;
 
 	for (i = 0; i < argc; i++)
+	{
 		printf("%s\n", argv[i]);
-
-	return 0;
+	}
+	return (0);
 }
