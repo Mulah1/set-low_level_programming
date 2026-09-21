@@ -2,9 +2,9 @@
 
 /**
  * sum_listint - Returns the sum of all the data (n) of a listint_t list.
- * @head: Pointer to the head of the list.
+ * @head: Pointer to the first node of the list.
  *
- * Return: Sum of all data, or 0 if list is empty.
+ * Return: Sum of all integer data, or 0 if the list is empty.
  */
 int sum_listint(listint_t *head)
 {
