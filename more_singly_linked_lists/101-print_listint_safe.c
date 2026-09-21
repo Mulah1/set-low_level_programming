@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <stdio.h>
 #include "lists.h"
 
@@ -7,19 +6,17 @@
  * @head: Pointer to the head of the list.
  *
  * Return: Number of nodes printed.
- * Exit with status 98 if a loop is detected.
  */
 size_t print_listint_safe(const listint_t *head)
 {
-	const listint_t *slow = head;
-	const listint_t *fast = head;
-	const listint_t *entry;
-	const listint_t *current;
+	const listint_t *slow, *fast, *entry, *current;
 	size_t count = 0;
 
 	if (head == NULL)
 		return (0);
 
+	slow = head;
+	fast = head;
 	while (fast != NULL && fast->next != NULL)
 	{
 		slow = slow->next;
@@ -66,7 +63,5 @@ size_t print_listint_safe(const listint_t *head)
 	}
 
 	printf("-> [%p] %d\n", (void *)entry, entry->n);
-	exit(98);
-
 	return (count);
 }
