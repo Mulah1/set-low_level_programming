@@ -2,6 +2,20 @@
 #include <stdlib.h>
 
 /**
+ * _insert_middle - helper to insert node in the middle
+ * @current: pointer to the node to insert before
+ * @new_node: pointer to the new node to insert
+ */
+static void _insert_middle(dlistint_t *current, dlistint_t *new_node)
+{
+	new_node->prev = current->prev;
+	new_node->next = current;
+	if (current->prev != NULL)
+		current->prev->next = new_node;
+	current->prev = new_node;
+}
+
+/**
  * insert_dnodeint_at_index - inserts a new node at a given position
  * @h: double pointer to the head of the list
  * @idx: index at which to insert the new node
@@ -19,11 +33,7 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 		return (NULL);
 
 	if (*h == NULL)
-	{
-		if (idx != 0)
-			return (NULL);
-		return (add_dnodeint(h, n));
-	}
+		return (idx == 0 ? add_dnodeint(h, n) : NULL);
 
 	if (idx == 0)
 		return (add_dnodeint(h, n));
@@ -46,14 +56,10 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 		return (NULL);
 
 	new_node->n = n;
-	new_node->prev = current->prev;
-	new_node->next = current;
+	_insert_middle(current, new_node);
 
-	if (current->prev != NULL)
-		current->prev->next = new_node;
-	else
+	if (current->prev == new_node && new_node->prev == NULL)
 		*h = new_node;
 
-	current->prev = new_node;
 	return (new_node);
 }
