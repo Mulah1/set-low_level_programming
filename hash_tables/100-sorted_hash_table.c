@@ -33,6 +33,51 @@ shash_table_t *shash_table_create(unsigned long int size)
 }
 
 /**
+ * shash_table_insert_sorted - Inserts a node into the sorted linked list.
+ * @ht: The sorted hash table.
+ * @new_node: The new node to insert.
+ */
+void shash_table_insert_sorted(shash_table_t *ht, shash_node_t *new_node)
+{
+	shash_node_t *temp;
+
+	if (!ht->shead)
+	{
+		ht->shead = new_node;
+		ht->stail = new_node;
+		new_node->sprev = NULL;
+		new_node->snext = NULL;
+		return;
+	}
+
+	temp = ht->shead;
+	while (temp && strcmp(temp->key, new_node->key) < 0)
+		temp = temp->snext;
+
+	if (!temp)
+	{
+		ht->stail->snext = new_node;
+		new_node->sprev = ht->stail;
+		new_node->snext = NULL;
+		ht->stail = new_node;
+	}
+	else if (temp == ht->shead)
+	{
+		new_node->sprev = NULL;
+		new_node->snext = ht->shead;
+		ht->shead->sprev = new_node;
+		ht->shead = new_node;
+	}
+	else
+	{
+		new_node->snext = temp;
+		new_node->sprev = temp->sprev;
+		temp->sprev->snext = new_node;
+		temp->sprev = new_node;
+	}
+}
+
+/**
  * shash_table_set - Adds or updates an element in a sorted hash table.
  * @ht: The sorted hash table.
  * @key: The key. Cannot be empty.
@@ -84,41 +129,7 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 	new_node->next = ht->array[index];
 	ht->array[index] = new_node;
 
-	if (!ht->shead)
-	{
-		ht->shead = new_node;
-		ht->stail = new_node;
-		new_node->sprev = NULL;
-		new_node->snext = NULL;
-	}
-	else
-	{
-		temp = ht->shead;
-		while (temp && strcmp(temp->key, key) < 0)
-			temp = temp->snext;
-
-		if (!temp)
-		{
-			ht->stail->snext = new_node;
-			new_node->sprev = ht->stail;
-			new_node->snext = NULL;
-			ht->stail = new_node;
-		}
-		else if (temp == ht->shead)
-		{
-			new_node->sprev = NULL;
-			new_node->snext = ht->shead;
-			ht->shead->sprev = new_node;
-			ht->shead = new_node;
-		}
-		else
-		{
-			new_node->snext = temp;
-			new_node->sprev = temp->sprev;
-			temp->sprev->snext = new_node;
-			temp->sprev = new_node;
-		}
-	}
+	shash_table_insert_sorted(ht, new_node);
 	return (1);
 }
 
