@@ -78,6 +78,62 @@ void shash_table_insert_sorted(shash_table_t *ht, shash_node_t *new_node)
 }
 
 /**
+ * shash_update_key - Updates value if key already exists.
+ * @node: The node found.
+ * @value: The new value.
+ *
+ * Return: 1 on success, 0 on failure.
+ */
+int shash_update_key(shash_node_t *node, const char *value)
+{
+	char *val_dup;
+
+	val_dup = strdup(value);
+	if (!val_dup)
+		return (0);
+
+	free(node->value);
+	node->value = val_dup;
+	return (1);
+}
+
+/**
+ * shash_make_node - Creates a new sorted hash node.
+ * @key: The key string.
+ * @value: The value string.
+ *
+ * Return: Pointer to new node, or NULL on failure.
+ */
+shash_node_t *shash_make_node(const char *key, const char *value)
+{
+	shash_node_t *new_node;
+
+	new_node = malloc(sizeof(shash_node_t));
+	if (!new_node)
+		return (NULL);
+
+	new_node->key = strdup(key);
+	if (!new_node->key)
+	{
+		free(new_node);
+		return (NULL);
+	}
+
+	new_node->value = strdup(value);
+	if (!new_node->value)
+	{
+		free(new_node->key);
+		free(new_node);
+		return (NULL);
+	}
+
+	new_node->next = NULL;
+	new_node->sprev = NULL;
+	new_node->snext = NULL;
+	return (new_node);
+}
+
+/**
  * shash_table_set - Adds or updates an element in a sorted hash table.
  * @ht: The sorted hash table.
  * @key: The key. Cannot be empty.
@@ -89,13 +145,8 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 {
 	unsigned long int index;
 	shash_node_t *new_node, *temp;
-	char *value_dup;
 
 	if (!ht || !key || *key == '\0' || !value)
-		return (0);
-
-	value_dup = strdup(value);
-	if (!value_dup)
 		return (0);
 
 	index = key_index((const unsigned char *)key, ht->size);
@@ -104,28 +155,14 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 	while (temp)
 	{
 		if (strcmp(temp->key, key) == 0)
-		{
-			free(temp->value);
-			temp->value = value_dup;
-			return (1);
-		}
+			return (shash_update_key(temp, value));
 		temp = temp->next;
 	}
 
-	new_node = malloc(sizeof(shash_node_t));
+	new_node = shash_make_node(key, value);
 	if (!new_node)
-	{
-		free(value_dup);
 		return (0);
-	}
-	new_node->key = strdup(key);
-	if (!new_node->key)
-	{
-		free(value_dup);
-		free(new_node);
-		return (0);
-	}
-	new_node->value = value_dup;
+
 	new_node->next = ht->array[index];
 	ht->array[index] = new_node;
 
